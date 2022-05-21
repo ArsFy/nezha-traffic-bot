@@ -89,7 +89,6 @@ bot.on("message", async (msg) => {
         switch (command[0]) {
             case "/now": case "/now" + config.bot:
                 let node = await update(true);
-                console.log(node)
                 let text = `Time: ${moment(new Date(node.time)).format("YYYY-MM-DD HH:mm")}\n\n`;
                 for (let i = 0; i < node.data.length; i++) {
                     let out_t = node.data[i].out / (1024 ** 3)
