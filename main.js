@@ -74,7 +74,7 @@ schedule.scheduleJob("0 0/30 * * * ?", () => {
     update();
 });
 
-schedule.scheduleJob("30 23 55 * * *", () => {
+schedule.scheduleJob("30 55 23 * * *", () => {
     p24()
 });
 
