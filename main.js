@@ -19,7 +19,7 @@ const update = (s) => {
             wss.terminate();
             let info = JSON.parse(data);
             let now = {
-                time: Math.ceil(new Date() / 1000),
+                time: new Date() / 1,
                 data: []
             }
             for (let i = 0; i < info.servers.length; i++) {
@@ -32,7 +32,7 @@ const update = (s) => {
                     })
                 }
             }
-            if (s) {
+            if (!s) {
                 nodedata.push(now)
                 fs.writeFileSync("./data/node.json", JSON.stringify(nodedata));
             }
@@ -67,7 +67,7 @@ const p24 = () => {
         }
     }
 
-    bot.sendMessage(config.group, `${moment(new Date(d24.time * 1000)).format("YYYY-MM-DD HH:ss")} -> ${moment(new Date(now.time * 1000)).format("YYYY-MM-DD HH:ss")}\n\n${text}`)
+    bot.sendMessage(config.group, `${moment(new Date(d24.time * 1000)).format("YYYY-MM-DD HH:mm")} -> ${moment(new Date(now.time * 1000)).format("YYYY-MM-DD HH:mm")}\n\n${text}`)
 }
 
 schedule.scheduleJob("0 0/30 * * * ?", () => {
@@ -89,7 +89,8 @@ bot.on("message", async (msg) => {
         switch (command[0]) {
             case "/now": case "/now" + config.bot:
                 let node = await update(true);
-                let text = `Time: ${moment(new Date(node.time * 1000)).format("YYYY-MM-DD HH:ss")}\n\n`;
+                console.log(node)
+                let text = `Time: ${moment(new Date(node.time)).format("YYYY-MM-DD HH:mm")}\n\n`;
                 for (let i = 0; i < node.data.length; i++) {
                     let out_t = node.data[i].out / (1024 ** 3)
                     let in_t = node.data[i].in / (1024 ** 3)
