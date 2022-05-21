@@ -1,0 +1,10 @@
+{
+    "token": "123456:Agagagasgagagagagg",
+    "bot": "@xxx_bot",
+    "nezha": "wss://xx.xxx.com/ws",
+    "group": "@xxx",
+    "nodelist": [
+        1,
+        2
+    ]
+}
