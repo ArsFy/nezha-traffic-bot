@@ -55,9 +55,9 @@ const p24 = () => {
 
     for (let i = 0; i < now.data.length; i++) {
         for (let ii = 0; ii < d24.data.length; ii++) {
-            if (now.data[i].name == d24.data[i].name) {
-                let out_t = (now.data[i].out - d24.data[i].out) / (1024 ** 3)
-                let in_t = (now.data[i].in - d24.data[i].in) / (1024 ** 3)
+            if (now.data[i].name == d24.data[ii].name) {
+                let out_t = (now.data[i].out - d24.data[ii].out) / (1024 ** 3);
+                let in_t = (now.data[i].in - d24.data[ii].in) / (1024 ** 3);
                 text += `# ${now.data[i].name}\nInput: ${(in_t).toFixed(2)}GB\nOutput: ${(out_t).toFixed(2)}GB\nAllTransfer: ${(out_t + in_t).toFixed(2)}GB`
                 if (i != now.data.length - 1) {
                     text += "\n\n"
@@ -67,7 +67,7 @@ const p24 = () => {
         }
     }
 
-    bot.sendMessage(config.group, `${moment(new Date(d24.time * 1000)).format("YYYY-MM-DD HH:mm")} -> ${moment(new Date(now.time * 1000)).format("YYYY-MM-DD HH:mm")}\n\n${text}`)
+    bot.sendMessage(config.group, `${moment(new Date(d24.time)).format("YYYY-MM-DD HH:mm")} -> ${moment(new Date(now.time)).format("YYYY-MM-DD HH:mm")}\n\n${text}`)
 }
 
 schedule.scheduleJob("0 0/30 * * * ?", () => {
