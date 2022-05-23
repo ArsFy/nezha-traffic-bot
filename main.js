@@ -7,6 +7,7 @@ const fs = require("fs");
 const WebSocket = require("ws");
 const schedule = require("node-schedule");
 const moment = require("moment");
+const child_process = require('child_process');
 
 const TelegramBot = require("node-telegram-bot-api");
 const bot = new TelegramBot(config.token, { polling: true });
@@ -44,7 +45,7 @@ const update = (s) => {
 const p24 = () => {
     let d24 = {}
     for (let i = 0; i < nodedata.length; i++) {
-        if (nodedata[i].time < new Date() - 24 * 60 * 60) {
+        if (nodedata[i].time > new Date() - 24 * 60 * 60 * 1000) {
             d24 = nodedata[i];
             break;
         }
@@ -67,7 +68,12 @@ const p24 = () => {
         }
     }
 
-    bot.sendMessage(config.group, `${moment(new Date(d24.time)).format("YYYY-MM-DD HH:mm")} -> ${moment(new Date(now.time)).format("YYYY-MM-DD HH:mm")}\n\n${text}`)
+    let w = child_process.exec("python3 ./c.py");
+    w.on('exit', () => {
+        bot.sendPhoto(config.group, fs.readFileSync("./t.png"), {
+            "caption": `${moment(new Date(d24.time)).format("YYYY-MM-DD HH:mm")} -> ${moment(new Date(now.time)).format("YYYY-MM-DD HH:mm")}\n\n${text}`
+        })
+    });
 }
 
 schedule.scheduleJob("0 0/30 * * * ?", () => {
@@ -98,7 +104,12 @@ bot.on("message", async (msg) => {
                         text += "\n\n"
                     }
                 }
-                bot.sendMessage(chatId, text);
+                let w = child_process.exec("python3 ./c.py");
+                w.on('exit', () => {
+                    bot.sendPhoto(chatId, fs.readFileSync("./t.png"), {
+                        "caption": text
+                    })
+                });
                 break;
         }
     }

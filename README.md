@@ -17,6 +17,12 @@ cd nezha-traffic-bot
 npm i
 ```
 
+### install (Python3)
+
+```
+pip3 install matplotlib
+```
+
 ### Config
 
 重新命名 `config.example.json` 為 `config.json`
